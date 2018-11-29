@@ -79,7 +79,7 @@ impl<'a> Display<'a> {
         self.renderer.clear();
         self.renderer.copy(&self.texture,
                            None,
-                           Some(Rect::new(0, 0, self.width, self.height)));
+                           Some(Rect::new(0, 0, self.width, self.height))).unwrap();
         self.renderer.present();
     }
 }

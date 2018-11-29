@@ -162,7 +162,7 @@ impl Chip8 {
     /// Loads the given bytes into the chip's memory.
     pub fn load_hex(&mut self, game: &[u8]) {
         for (i, byte) in game.iter().enumerate() {
-            self.memory[i + 512] = *byte;
+            self.memory[i + 0x200] = *byte;
         }
     }
 
