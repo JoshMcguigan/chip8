@@ -42,7 +42,7 @@ fn main() {
 
     // Initialize the emulator and load the game
     let mut chip = Chip8::default();
-    chip.load_hex(&loader::load_file(matches.value_of("ROM").unwrap()));
+    chip.load(&loader::load_file(matches.value_of("ROM").unwrap()));
 
     // Prepare SDL for video, audio, and input
     let sdl_context = sdl2::init().unwrap();
@@ -73,7 +73,17 @@ fn main() {
         if chip.draw_flag {
             debug!("{:?}", chip);
             chip.draw_flag = false;
-            window.draw_frame(&chip.graphics);
+            let mut graphics_as_bytes : [u8; 2048] = [0; 2048];
+            chip.graphics
+                .iter()
+                .map(|&bit|
+                    if bit { 1u8 } else { 0u8 }
+                )
+                .enumerate()
+                .for_each(|(i, val)|{
+                    graphics_as_bytes[i] = val;
+                });
+            window.draw_frame(&graphics_as_bytes);
         }
 
         // Make sound if needed
